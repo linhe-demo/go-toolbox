@@ -1,0 +1,19 @@
+syntax = "v1"
+
+info(
+    title: "玩家请求api"
+    desc: "玩家相关操作"
+    author: "linhe"
+    email: "296110717"
+    version: "001"
+)
+
+type MatchRequest {
+    UserId int64 `json:"userId"`
+    Rank int64 `json:"rank"`
+    NeedNum int64 `json:"needNum"`
+}
+
+type MatchResponse {
+    RoomId int64 `json:"roomId"`
+}

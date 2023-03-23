@@ -1,0 +1,11 @@
+import (
+	"apifile/player.api"
+)
+
+service toolbox-api {
+	@doc(
+		summary: "用户游戏匹配接口"
+	)
+	@handler ToolboxHandler
+	get /game/match (MatchRequest) returns (MatchResponse)
+}
