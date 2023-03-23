@@ -49,6 +49,9 @@ func MatchProcess(pool *MatchPool) {
 				needNum           int64
 				matchRoom         *MatchPlayerRoom
 			)
+			//初始化最长等待时间玩家
+			longestWaitPlayer = MatchPlayParam(common.Zero, common.Zero, common.Zero, make(chan int64))
+
 			for _, rankPlayer := range v {
 				if longestWaitPlayer.Id == common.Zero {
 					longestWaitPlayer = rankPlayer
