@@ -2,8 +2,8 @@ package gamematching
 
 import "toolbox/common"
 
-// MatchPlayParam 构建匹配者信息
-func MatchPlayParam(id int64, rank int64, needNum int64, ch chan int64) *PlayerParam {
+// InitPlay 构建匹配者信息
+func InitPlay(id int64, rank int64, needNum int64, ch chan int64) *PlayerParam {
 	return &PlayerParam{
 		Id:             id,
 		Rank:           rank,
@@ -15,7 +15,7 @@ func MatchPlayParam(id int64, rank int64, needNum int64, ch chan int64) *PlayerP
 
 // AddPlayerToPool 向匹配池中新增单个玩家
 func (m *MatchPool) AddPlayerToPool(id int64, rank int64, needNum int64, ch chan int64) bool {
-	player := MatchPlayParam(id, rank, needNum, ch)
+	player := InitPlay(id, rank, needNum, ch)
 	v, ok := m.PlayMap.LoadOrStore(id, player)
 	if v == nil && ok == true {
 		m.Size++
@@ -42,4 +42,13 @@ func (m *MatchPool) ReceiveReturnPlayer(param *PlayerParam) (out bool) {
 // NotifyPlayerMatchComplete 通知玩家匹配成功
 func (m *PlayerParam) NotifyPlayerMatchComplete(roomId int64) {
 	m.Notify <- roomId
+}
+
+// CheckPlayerOnLine 检查用是否还在线
+func (m *PlayerParam) CheckPlayerOnLine() bool {
+	if _, ok := <-m.Notify; ok {
+		return true
+	} else {
+		return false
+	}
 }

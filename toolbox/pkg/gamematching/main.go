@@ -7,8 +7,8 @@ import (
 	"toolbox/common"
 )
 
-// Pool 初始化匹配池
-var Pool = InitPlayerPoolInfo()
+// pool 初始化匹配池
+var pool = InitPlayerPoolInfo()
 
 func Run() *MatchPool {
 
@@ -21,12 +21,12 @@ func Run() *MatchPool {
 			select {
 			case <-myTimer.C:
 				//匹配函数
-				MatchProcess(Pool)
+				MatchProcess(pool)
 				myTimer.Reset(time.Second * 1)
 			}
 		}
 	}()
-	return Pool
+	return pool
 }
 
 // InitPlayerPoolInfo 匹配池用户信息初始化

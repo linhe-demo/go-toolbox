@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/bits-and-blooms/bitset v1.5.0
+	github.com/bwmarrin/snowflake v0.3.0
 	github.com/shopspring/decimal v1.3.1
 	github.com/zeromicro/go-zero v1.5.0
 )

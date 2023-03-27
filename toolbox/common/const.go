@@ -6,6 +6,8 @@ const (
 	DefaultHashArrSize = 16 // 默认hash数组大小
 
 	TimeFormat = "2006-01-02 15:04:05"
+
+	MachineId = 1 // 机器id
 )
 
 const (

@@ -10,8 +10,8 @@ import (
 // MatchProcess 匹配玩家方法
 func MatchProcess(pool *MatchPool) {
 	var (
-		bTimestamp = common.CurrentTimestamp()
-		rankMap    = make(map[int64][]*PlayerParam)
+		//bTimestamp = common.CurrentTimestamp()
+		rankMap = make(map[int64][]*PlayerParam)
 	)
 
 	//将玩家按照rank分 分组
@@ -33,7 +33,6 @@ func MatchProcess(pool *MatchPool) {
 		}
 		return true
 	})
-
 	/**
 	匹配分组后的玩家
 	取同分段等待时间最长的玩家（随着时间推移该玩家的匹配区间是最大的，如果该玩家匹配不到同分段其他玩家也匹配不到
@@ -42,15 +41,13 @@ func MatchProcess(pool *MatchPool) {
 		matchBtn := true
 		for matchBtn {
 			var (
-				longestWaitPlayer *PlayerParam
+				longestWaitPlayer = InitPlay(common.Zero, common.Zero, common.Zero, make(chan int64))
 				min               int64
 				max               int64
 				rankNum           int64
 				needNum           int64
-				matchRoom         *MatchPlayerRoom
+				matchRoom         = InitRoom(common.Zero, []*PlayerParam{}, common.Zero)
 			)
-			//初始化最长等待时间玩家
-			longestWaitPlayer = MatchPlayParam(common.Zero, common.Zero, common.Zero, make(chan int64))
 
 			for _, rankPlayer := range v {
 				if longestWaitPlayer.Id == common.Zero {
@@ -97,6 +94,15 @@ func MatchProcess(pool *MatchPool) {
 				if tmpNum > common.Zero {
 					if matchRoom.Size < needNum {
 						for _, target := range thisPlayers {
+							//检查用户是否还在线
+							if res := target.CheckPlayerOnLine(); !res {
+								//将玩家从匹配池中移除
+								if r := pool.RemovePlayerOutPool(target.Id); r {
+									//将玩家从房间里移除
+									matchRoom.RemovePlayerOutRoom(target.Id)
+								}
+							}
+
 							if target.Id != longestWaitPlayer.Id { //排除玩家自己
 								if matchRoom.Size < needNum {
 									//将目标玩家从匹配池中移除
@@ -136,5 +142,5 @@ func MatchProcess(pool *MatchPool) {
 			}
 		}
 	}
-	common.ShowLog(fmt.Sprintf("本次匹配耗时：%v 秒", (common.CurrentTimestamp()-bTimestamp)/1000))
+	//common.ShowLog(fmt.Sprintf("本次匹配耗时：%v 秒", (common.CurrentTimestamp()-bTimestamp)/1000))
 }
