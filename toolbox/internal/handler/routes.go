@@ -17,6 +17,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/game/match",
 				Handler: ToolboxHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/ocr/analysis",
+				Handler: OcrHandler(serverCtx),
+			},
 		},
 	)
 }

@@ -1,0 +1,19 @@
+syntax = "v1"
+
+info(
+    title: "调用百度接口api"
+    desc: "调用百度接口api"
+    author: "linhe"
+    email: "296110717"
+    version: "001"
+)
+
+type OcrRequest {
+    File string `json:"file"`
+    Type string `json:"type"`
+    FileType int `json:"fileType"`
+}
+
+type OcrResponse {
+    Result interface{} `json:"result"`
+}

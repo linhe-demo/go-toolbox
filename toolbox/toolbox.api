@@ -1,5 +1,6 @@
 import (
 	"apifile/player.api"
+	"apifile/baidu.api"
 )
 
 service toolbox-api {
@@ -8,4 +9,10 @@ service toolbox-api {
 	)
 	@handler ToolboxHandler
 	get /game/match (MatchRequest) returns (MatchResponse)
+	
+	@doc(
+		summary: "读取图片中文字信息"
+	)
+	@handler OcrHandler
+	post /ocr/analysis (OcrRequest) returns (OcrResponse)
 }

@@ -102,7 +102,6 @@ func MatchProcess(pool *MatchPool) {
 									matchRoom.RemovePlayerOutRoom(target.Id)
 								}
 							}
-
 							if target.Id != longestWaitPlayer.Id { //排除玩家自己
 								if matchRoom.Size < needNum {
 									//将目标玩家从匹配池中移除

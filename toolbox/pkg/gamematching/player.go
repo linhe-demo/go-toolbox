@@ -1,6 +1,9 @@
 package gamematching
 
-import "toolbox/common"
+import (
+	"fmt"
+	"toolbox/common"
+)
 
 // InitPlay 构建匹配者信息
 func InitPlay(id int64, rank int64, needNum int64, ch chan int64) *PlayerParam {
@@ -20,6 +23,7 @@ func (m *MatchPool) AddPlayerToPool(id int64, rank int64, needNum int64, ch chan
 	if v == nil && ok == true {
 		m.Size++
 	}
+	common.ShowLog(fmt.Sprintf("玩家 %d 进入匹配池", id))
 	return ok
 }
 
@@ -28,6 +32,7 @@ func (m *MatchPool) RemovePlayerOutPool(id int64) (out bool) {
 	if _, out = m.PlayMap.LoadAndDelete(id); out {
 		m.Size--
 	}
+	common.ShowLog(fmt.Sprintf("玩家 %d 被移除匹配池", id))
 	return out
 }
 
@@ -46,9 +51,14 @@ func (m *PlayerParam) NotifyPlayerMatchComplete(roomId int64) {
 
 // CheckPlayerOnLine 检查用是否还在线
 func (m *PlayerParam) CheckPlayerOnLine() bool {
-	if _, ok := <-m.Notify; ok {
+	select {
+	case _, ok := <-m.Notify:
+		if ok {
+			return true
+		} else {
+			return false
+		}
+	default:
 		return true
-	} else {
-		return false
 	}
 }

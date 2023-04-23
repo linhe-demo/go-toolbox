@@ -9,5 +9,5 @@ func CurrentTimestamp() int64 {
 
 // ShowLog 输出信息
 func ShowLog(msg string) {
-	println(msg)
+	//println(msg)
 }

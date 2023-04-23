@@ -2,10 +2,12 @@ package exception
 
 const (
 	ParamCode = 1001
+	ApiCode   = 2001
 )
 
 var ErrorMsgMap = map[int]string{
 	ParamCode: "参数异常",
+	ApiCode:   "功能不支持",
 }
 
 type CodeError struct {

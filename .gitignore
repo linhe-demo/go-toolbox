@@ -1,3 +1,5 @@
 .idea
 toolbox/etc/*.yaml
 demo.go
+toolbox/data/*.png
+toolbox/data/*.jpg

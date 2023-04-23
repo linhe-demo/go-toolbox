@@ -10,3 +10,13 @@ type MatchRequest struct {
 type MatchResponse struct {
 	RoomId int64 `json:"roomId"`
 }
+
+type OcrRequest struct {
+	File     string `json:"file"`
+	Type     string `json:"type"`
+	FileType int    `json:"fileType"`
+}
+
+type OcrResponse struct {
+	Result interface{} `json:"result"`
+}
