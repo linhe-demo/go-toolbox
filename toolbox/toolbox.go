@@ -14,13 +14,14 @@ import (
 	"toolbox/internal/svc"
 )
 
-var configFile = flag.String("f", "etc/toolbox-api.yaml", "the config file")
-
 func main() {
+	var configFile *string
 	sysType := runtime.GOOS
 
 	if sysType == `linux` {
-		configFile = flag.String("f", "/home/go-toolbox/toolbox/etc/toolbox-api.yaml", "the config file")
+		configFile = flag.String("l", "/home/go-toolbox/toolbox/etc/toolbox-api.yaml", "the config file")
+	} else {
+		configFile = flag.String("f", "etc/toolbox-api.yaml", "the config file")
 	}
 	flag.Parse()
 
