@@ -7,6 +7,7 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/rest/httpx"
 	"net/http"
+	"runtime"
 	"toolbox/exception"
 	"toolbox/internal/config"
 	"toolbox/internal/handler"
@@ -16,6 +17,11 @@ import (
 var configFile = flag.String("f", "etc/toolbox-api.yaml", "the config file")
 
 func main() {
+	sysType := runtime.GOOS
+
+	if sysType == `linux` {
+		configFile = flag.String("f", "/home/go-toolbox/toolbox/etc/toolbox-api.yaml", "the config file")
+	}
 	flag.Parse()
 
 	var c config.Config
