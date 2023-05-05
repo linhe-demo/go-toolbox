@@ -5,6 +5,7 @@ import (
 	"toolbox/internal/svc"
 	"toolbox/internal/types"
 	"toolbox/pkg/oauth"
+	"toolbox/pkg/watchdog"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,6 +25,7 @@ func NewOcrLogic(ctx context.Context, svcCtx *svc.ServiceContext) *OcrLogic {
 }
 
 func (l *OcrLogic) Ocr(req *types.OcrRequest) (resp *types.OcrResponse, err error) {
+	var param []watchdog.LogInfo
 	res, err := oauth.AnalysisPictureText(l.ctx, l.svcCtx.RedisClient, l.svcCtx.Config, req.Type, req.File, req.FileType)
 	if err != nil {
 		return resp, err
@@ -33,6 +35,9 @@ func (l *OcrLogic) Ocr(req *types.OcrRequest) (resp *types.OcrResponse, err erro
 	for _, v := range res.WordsResult {
 		resultList = append(resultList, v.Words)
 	}
+	// 写入日志
+	param = append(param, watchdog.LogInfo{Action: "ocr"})
+	watchdog.Save(l.ctx, l.svcCtx, param)
 	return &types.OcrResponse{
 		Result: resultList,
 	}, nil
