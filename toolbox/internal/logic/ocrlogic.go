@@ -26,7 +26,7 @@ func NewOcrLogic(ctx context.Context, svcCtx *svc.ServiceContext) *OcrLogic {
 
 func (l *OcrLogic) Ocr(req *types.OcrRequest) (resp *types.OcrResponse, err error) {
 	var param []watchdog.LogInfo
-	res, err := oauth.AnalysisPictureText(l.ctx, l.svcCtx.RedisClient, l.svcCtx.Config, req.Type, req.File, req.FileType)
+	res, err := oauth.AnalysisPictureText(l.ctx, l.svcCtx, req.Type, req.File, req.FileType)
 	if err != nil {
 		return resp, err
 	}
