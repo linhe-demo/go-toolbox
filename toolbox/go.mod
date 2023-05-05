@@ -6,6 +6,7 @@ require (
 	github.com/axgle/mahonia v0.0.0-20180208002826-3358181d7394
 	github.com/bits-and-blooms/bitset v1.5.0
 	github.com/bwmarrin/snowflake v0.3.0
+	github.com/glendc/go-external-ip v0.1.0
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gorilla/websocket v1.5.0
 	github.com/otiai10/gosseract/v2 v2.4.0

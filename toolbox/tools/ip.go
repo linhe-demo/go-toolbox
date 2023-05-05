@@ -1,17 +1,16 @@
 package tools
 
 import (
+	externalip "github.com/glendc/go-external-ip"
 	"log"
-	"net"
-	"strings"
 )
 
 func GetOutBoundIP() (ip string) {
-	conn, err := net.Dial("udp", "8.8.8.8:53")
+	consensus := externalip.DefaultConsensus(nil, nil)
+	tmpIp, err := consensus.ExternalIP()
 	if err != nil {
-		log.Print("获取ip 异常", err)
-		return
+		log.Print(err)
+		return ""
 	}
-	localAddr := conn.LocalAddr().(*net.UDPAddr)
-	return strings.Split(localAddr.String(), ":")[0]
+	return tmpIp.String()
 }
