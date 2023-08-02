@@ -1,23 +1,24 @@
 package handler
 
 import (
-	"github.com/zeromicro/go-zero/rest/httpx"
 	"net/http"
+
+	"github.com/zeromicro/go-zero/rest/httpx"
 	"toolbox/internal/logic"
 	"toolbox/internal/svc"
 	"toolbox/internal/types"
 )
 
-func OcrHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func LogHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.OcrRequest
+		var req types.LogRequest
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := logic.NewOcrLogic(r.Context(), svcCtx, w, r)
-		resp, err := l.Ocr(&req)
+		l := logic.NewLogLogic(r.Context(), svcCtx, w, r)
+		resp, err := l.Log(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"time"
 	"toolbox/common"
@@ -16,14 +17,14 @@ import (
 	"toolbox/tools"
 )
 
-func GetBaiduOauthToken(ctx context.Context, l *svc.ServiceContext) string {
+func GetBaiduOauthToken(ctx context.Context, l *svc.ServiceContext, w http.ResponseWriter, r *http.Request) string {
 	var param []watchdog.LogInfo
 	cmd := l.RedisClient.Get(ctx, "baiduAccessTokenKey")
 	if err := cmd.Err(); err != nil {
 		log.Print("get baidu access token err!")
 	} else {
 		param = append(param, watchdog.LogInfo{Action: "getRedisToken"})
-		watchdog.Save(ctx, l, param)
+		watchdog.Save(ctx, l, param, w, r)
 		token, _ := cmd.Result()
 		if len(token) > common.Zero {
 			return token
@@ -31,7 +32,7 @@ func GetBaiduOauthToken(ctx context.Context, l *svc.ServiceContext) string {
 	}
 
 	param = append(param, watchdog.LogInfo{Action: "getBaiduToken"})
-	watchdog.Save(ctx, l, param)
+	watchdog.Save(ctx, l, param, w, r)
 	url := fmt.Sprintf("%soauth/2.0/token?client_id=%s&client_secret=%s&grant_type=client_credentials",
 		l.Config.BaiduOauth.OauthUrl, l.Config.BaiduOauth.AppKey, l.Config.BaiduOauth.AppSecret)
 	res, _ := tools.Post(url, "", map[string]string{"Content-Type": "application/json", "Accept": "application/json"})
@@ -48,7 +49,7 @@ func GetBaiduOauthToken(ctx context.Context, l *svc.ServiceContext) string {
 	return data.AccessToken
 }
 
-func AnalysisPictureText(ctx context.Context, l *svc.ServiceContext, requestType string, file string, fileType int) (out *IdentifyPictureRes, err error) {
+func AnalysisPictureText(ctx context.Context, l *svc.ServiceContext, requestType string, file string, fileType int, w http.ResponseWriter, r *http.Request) (out *IdentifyPictureRes, err error) {
 	// 获取请求地址
 	method, err := tools.GetBaiduUrl(requestType)
 	if err != nil {
@@ -59,7 +60,7 @@ func AnalysisPictureText(ctx context.Context, l *svc.ServiceContext, requestType
 		sEnc  string
 	)
 	// 获取accessToken
-	accessToken := GetBaiduOauthToken(ctx, l)
+	accessToken := GetBaiduOauthToken(ctx, l, w, r)
 	if fileType == common.FileName {
 		//读取文件
 		wd, _ := os.Getwd()

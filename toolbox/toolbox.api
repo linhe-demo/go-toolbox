@@ -1,6 +1,7 @@
 import (
 	"apifile/player.api"
 	"apifile/baidu.api"
+	"apifile/log.api"
 )
 
 service toolbox-api {
@@ -15,4 +16,10 @@ service toolbox-api {
 	)
 	@handler OcrHandler
 	post /ocr/analysis (OcrRequest) returns (OcrResponse)
+	
+	@doc(
+		summary: "日志记录"
+	)
+	@handler LogHandler
+	post /log/save (LogRequest) returns (LogResponse)
 }

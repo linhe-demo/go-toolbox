@@ -22,6 +22,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/ocr/analysis",
 				Handler: OcrHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/log/save",
+				Handler: LogHandler(serverCtx),
+			},
 		},
 	)
 }

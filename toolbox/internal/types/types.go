@@ -20,3 +20,12 @@ type OcrRequest struct {
 type OcrResponse struct {
 	Result interface{} `json:"result"`
 }
+
+type LogRequest struct {
+	Action     string `json:"action"`
+	ActionUser string `json:"actionUser"`
+}
+
+type LogResponse struct {
+	Result interface{} `json:"result"`
+}

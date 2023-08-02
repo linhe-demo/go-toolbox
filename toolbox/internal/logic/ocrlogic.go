@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"net/http"
 	"toolbox/internal/svc"
 	"toolbox/internal/types"
 	"toolbox/pkg/oauth"
@@ -14,19 +15,23 @@ type OcrLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	w      http.ResponseWriter
+	r      *http.Request
 }
 
-func NewOcrLogic(ctx context.Context, svcCtx *svc.ServiceContext) *OcrLogic {
+func NewOcrLogic(ctx context.Context, svcCtx *svc.ServiceContext, w http.ResponseWriter, r *http.Request) *OcrLogic {
 	return &OcrLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
+		w:      w,
+		r:      r,
 	}
 }
 
 func (l *OcrLogic) Ocr(req *types.OcrRequest) (resp *types.OcrResponse, err error) {
 	var param []watchdog.LogInfo
-	res, err := oauth.AnalysisPictureText(l.ctx, l.svcCtx, req.Type, req.File, req.FileType)
+	res, err := oauth.AnalysisPictureText(l.ctx, l.svcCtx, req.Type, req.File, req.FileType, l.w, l.r)
 	if err != nil {
 		return resp, err
 	}
@@ -37,7 +42,7 @@ func (l *OcrLogic) Ocr(req *types.OcrRequest) (resp *types.OcrResponse, err erro
 	}
 	// 写入日志
 	param = append(param, watchdog.LogInfo{Action: "ocr"})
-	watchdog.Save(l.ctx, l.svcCtx, param)
+	watchdog.Save(l.ctx, l.svcCtx, param, l.w, l.r)
 	return &types.OcrResponse{
 		Result: resultList,
 	}, nil
