@@ -11,7 +11,7 @@ import (
 
 func Save(ctx context.Context, svc *svc.ServiceContext, param []LogInfo, w http.ResponseWriter, r *http.Request) {
 	for _, v := range param {
-		var actionUser = "system"
+		var actionUser = "golang"
 		if len(v.ActionUser) != common.Zero {
 			actionUser = v.ActionUser
 		}
