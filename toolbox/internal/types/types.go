@@ -29,3 +29,11 @@ type LogRequest struct {
 type LogResponse struct {
 	Result interface{} `json:"result"`
 }
+
+type CompressionRequest struct {
+	Nmae string `json:"nmae"`
+}
+
+type CompressionResponse struct {
+	Path string `json:"path"`
+}

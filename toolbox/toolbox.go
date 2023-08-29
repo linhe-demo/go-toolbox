@@ -15,6 +15,7 @@ import (
 )
 
 func main() {
+
 	var configFile *string
 	sysType := runtime.GOOS
 

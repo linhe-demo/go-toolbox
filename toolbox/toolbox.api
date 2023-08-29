@@ -2,6 +2,7 @@ import (
 	"apifile/player.api"
 	"apifile/baidu.api"
 	"apifile/log.api"
+	"apifile/photo.api"
 )
 
 service toolbox-api {
@@ -22,4 +23,10 @@ service toolbox-api {
 	)
 	@handler LogHandler
 	post /log/save (LogRequest) returns (LogResponse)
+	
+	@doc(
+		summary: "图片操作"
+	)
+	@handler ImageHandler
+	post /image/compression (CompressionRequest) returns (CompressionResponse)
 }

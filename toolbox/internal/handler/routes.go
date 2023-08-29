@@ -27,6 +27,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/log/save",
 				Handler: LogHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/image/compression",
+				Handler: ImageHandler(serverCtx),
+			},
 		},
 	)
 }

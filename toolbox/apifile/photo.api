@@ -1,0 +1,17 @@
+syntax = "v1"
+
+info(
+    title: "图片操作api"
+    desc: "图片操作api"
+    author: "linhe"
+    email: "296110717"
+    version: "001"
+)
+
+type CompressionRequest {
+    Nmae string `json:"nmae"`
+}
+
+type CompressionResponse {
+    Path string `json:"path"`
+}
