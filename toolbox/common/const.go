@@ -5,11 +5,12 @@ const (
 	One                = 1
 	DefaultHashArrSize = 16 // 默认hash数组大小
 
-	TimeFormat   = "2006-01-02 15:04:05"
-	WaitSecond   = 10
-	Success      = "success"
-	FilePath     = "/var/www/html/"
-	TempFilePath = "/home/static/temp/"
+	TimeFormat       = "2006-01-02 15:04:05"
+	WaitSecond       = 10
+	Success          = "success"
+	FilePath         = "/var/www/html/"
+	TempFilePath     = "/home/static/temp/"
+	DownloadFilePath = "http://150.158.82.218/images/"
 )
 
 const (
