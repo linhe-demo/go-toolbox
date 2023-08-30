@@ -32,6 +32,7 @@ type LogResponse struct {
 
 type CompressionRequest struct {
 	Nmae string `json:"nmae"`
+	Type int64  `json:"type,omitempty"`
 }
 
 type CompressionResponse struct {

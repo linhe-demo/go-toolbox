@@ -26,9 +26,10 @@ func ImageHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			}
 		}(file)
 		name := r.FormValue("name")
+		operateType := r.FormValue("type")
 
 		l := logic.NewImageLogic(r.Context(), svcCtx, w, r)
-		resp, err := l.Image(file, header, name)
+		resp, err := l.Image(file, header, name, operateType)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

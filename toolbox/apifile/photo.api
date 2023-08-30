@@ -10,6 +10,7 @@ info(
 
 type CompressionRequest {
     Nmae string `json:"nmae"`
+    Type int64 `json:"type,omitempty"`
 }
 
 type CompressionResponse {

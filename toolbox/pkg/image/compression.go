@@ -2,6 +2,7 @@ package image
 
 import (
 	"fmt"
+	"github.com/jung-kurt/gofpdf"
 	"github.com/nfnt/resize"
 	"image"
 	"image/jpeg"
@@ -46,15 +47,27 @@ func CompressionImage(path string, compressionRatio float64, name string) {
 		log.Fatal(err)
 	}
 	defer outputFile.Close()
-	jpeg.Encode(outputFile, compressedImg, &jpeg.Options{Quality: 80})
+	jpeg.Encode(outputFile, compressedImg, &jpeg.Options{Quality: 90})
 }
 
 // 压缩图片
 func compressImage(img image.Image, compression float64) image.Image {
-	width := uint(float64(img.Bounds().Dx()) * 1)
-	height := uint(float64(img.Bounds().Dy()) * 1)
+	width := uint(float64(img.Bounds().Dx()))
+	height := uint(float64(img.Bounds().Dy()))
 
 	resizedImg := resize.Resize(width, height, img, resize.Lanczos3)
 
 	return resizedImg
+}
+
+// TransferToPdf 图片转PDF
+func TransferToPdf(filepath string, name string) {
+	pdf := gofpdf.New("P", "mm", "A4", "")
+	pdf.AddPage()
+	pdf.SetFont("Arial", "", 11)
+	pdf.Image(filepath, 10, 10, pdf.GetPageSizeStr("A4").Wd-20, 0, false, "", 0, "")
+	err := pdf.OutputFileAndClose(fmt.Sprintf("%s%s.pdf", common.FilePath, name))
+	if err != nil {
+		log.Fatalf("output failed,err:%s", err)
+	}
 }
