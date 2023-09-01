@@ -11,6 +11,7 @@ info(
 type LogRequest {
     Action string `json:"action"`
     ActionUser string `json:"actionUser"`
+    Ip string `json:"ip,omitempty"`
 }
 
 type LogResponse {

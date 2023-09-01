@@ -24,6 +24,7 @@ type OcrResponse struct {
 type LogRequest struct {
 	Action     string `json:"action"`
 	ActionUser string `json:"actionUser"`
+	Ip         string `json:"ip"`
 }
 
 type LogResponse struct {

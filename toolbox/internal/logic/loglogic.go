@@ -31,7 +31,7 @@ func NewLogLogic(ctx context.Context, svcCtx *svc.ServiceContext, w http.Respons
 
 func (l *LogLogic) Log(req *types.LogRequest) (resp *types.LogResponse, err error) {
 	var param []watchdog.LogInfo
-	param = append(param, watchdog.LogInfo{Action: req.Action, ActionUser: req.ActionUser})
+	param = append(param, watchdog.LogInfo{Action: req.Action, ActionUser: req.ActionUser, IP: req.Ip})
 	watchdog.Save(l.ctx, l.svcCtx, param, l.w, l.r)
 	return &types.LogResponse{
 		Result: common.Success,
