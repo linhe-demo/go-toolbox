@@ -29,4 +29,10 @@ service toolbox-api {
 	)
 	@handler ImageHandler
 	post /image/compression (CompressionRequest) returns (CompressionResponse)
+	
+	@doc(
+		summary: "删除机器上存储的图片"
+	)
+	@handler DeleteImageHandler
+	post /image/delete (DeleteImageRequest) returns (DeleteImageResponse)
 }

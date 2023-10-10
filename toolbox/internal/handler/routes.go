@@ -32,6 +32,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/image/compression",
 				Handler: ImageHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/image/delete",
+				Handler: DeleteImageHandler(serverCtx),
+			},
 		},
 	)
 }

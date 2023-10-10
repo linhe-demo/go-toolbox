@@ -2,6 +2,7 @@ package image
 
 import (
 	"fmt"
+	"github.com/disintegration/imaging"
 	"github.com/jung-kurt/gofpdf"
 	"github.com/nfnt/resize"
 	"image"
@@ -9,6 +10,7 @@ import (
 	"io/fs"
 	"log"
 	"os"
+	"strings"
 	"toolbox/common"
 )
 
@@ -70,4 +72,33 @@ func TransferToPdf(filepath string, name string) {
 	if err != nil {
 		log.Fatalf("output failed,err:%s", err)
 	}
+}
+
+// RemoveWatermark 去除水印
+func RemoveWatermark(filepath string, name string) string {
+	tmpSlice := strings.Split(filepath, ".")
+	suffix := tmpSlice[1]
+	file, err := os.Open(filepath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	img, _, err := image.Decode(file)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	//判断水印位置
+	bounds := img.Bounds()
+	x := bounds.Dx() - 100
+	y := bounds.Dy() - 100
+	fmt.Println(x)
+	fmt.Println(y)
+	//去除水印
+	img = imaging.Crop(img, image.Rect(0, 0, x, y))
+	newFilePath := fmt.Sprintf("%s%s.%s", common.FilePath, name, suffix)
+	//保存处理后的图片
+	err = imaging.Save(img, newFilePath)
+	return fmt.Sprintf("%s%s.%s", common.DownloadFilePath, name, suffix)
 }

@@ -16,3 +16,11 @@ type CompressionRequest {
 type CompressionResponse {
     Path string `json:"path"`
 }
+
+type DeleteImageRequest {
+    Name string `json:"name"`
+}
+
+type DeleteImageResponse {
+    Path string `json:"path"`
+}

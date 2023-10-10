@@ -51,6 +51,10 @@ func (l *ImageLogic) Image(file multipart.File, header *multipart.FileHeader, na
 		image.TransferToPdf(path, name)
 		newPath = fmt.Sprintf("%s%s.pdf", common.DownloadFilePath, name)
 		param = append(param, watchdog.LogInfo{Action: "imgToPdf"})
+	case "2":
+		//图片去除水印
+		newPath = image.RemoveWatermark(path, name)
+		param = append(param, watchdog.LogInfo{Action: "removeWatermark"})
 	default:
 		newPath = "咱不支持该类型转换"
 	}

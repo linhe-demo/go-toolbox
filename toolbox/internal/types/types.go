@@ -24,7 +24,7 @@ type OcrResponse struct {
 type LogRequest struct {
 	Action     string `json:"action"`
 	ActionUser string `json:"actionUser"`
-	Ip         string `json:"ip"`
+	Ip         string `json:"ip,omitempty"`
 }
 
 type LogResponse struct {
@@ -37,5 +37,13 @@ type CompressionRequest struct {
 }
 
 type CompressionResponse struct {
+	Path string `json:"path"`
+}
+
+type DeleteImageRequest struct {
+	Name string `json:"name"`
+}
+
+type DeleteImageResponse struct {
 	Path string `json:"path"`
 }
