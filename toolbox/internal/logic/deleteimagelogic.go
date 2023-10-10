@@ -26,7 +26,7 @@ func NewDeleteImageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delet
 }
 
 func (l *DeleteImageLogic) DeleteImage(req *types.DeleteImageRequest) (resp *types.DeleteImageResponse, err error) {
-	filePath := fmt.Sprintf("var/www/html%s", req.Name)
+	filePath := fmt.Sprintf("var/www/html/%s", req.Name)
 	// 检查文件是否存在
 	_, err = os.Stat(filePath)
 	back := &types.DeleteImageResponse{}
