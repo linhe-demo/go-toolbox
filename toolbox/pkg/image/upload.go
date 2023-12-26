@@ -10,6 +10,7 @@ import (
 	"github.com/qiniu/go-sdk/v7/storage"
 	"io/ioutil"
 	"log"
+	"os"
 	"strconv"
 	"time"
 	"toolbox/common"
@@ -19,12 +20,14 @@ import (
 )
 
 func DealUploadImage(c config.Config, context context.Context, ctx *svc.ServiceContext, data string) {
+
 	param := UploadImage{}
 	err := json.Unmarshal([]byte(data), &param)
 	if err != nil {
 		log.Fatal(err)
 		return
 	}
+	defer os.Remove(param.Path)
 	//将图片压缩
 	CompressionImage(param.Path, 0.5, strconv.FormatInt(param.Id, 10))
 	newPath := fmt.Sprintf("%s%s.jpg", common.FilePath, strconv.FormatInt(param.Id, 10))
@@ -35,7 +38,7 @@ func DealUploadImage(c config.Config, context context.Context, ctx *svc.ServiceC
 		fmt.Println(err)
 		return
 	}
-
+	defer os.Remove(qiniuPath)
 	//将正常处理的图片信息保存
 	info := models.LifeConfig{
 		ConfigId:          param.ConfigId,
@@ -51,6 +54,8 @@ func DealUploadImage(c config.Config, context context.Context, ctx *svc.ServiceC
 		fmt.Println(err)
 		return
 	}
+	os.Remove(param.Path)
+	os.Remove(qiniuPath)
 }
 
 func UploadToQiNiu(c config.Config, context context.Context, path string, name int64) (out string, err error) {
