@@ -1,0 +1,18 @@
+syntax = "v1"
+
+info(
+    title: "mq-api"
+    desc: "mq-api"
+    author: "linhe"
+    email: "296110717"
+    version: "001"
+)
+
+type RocketMqRequest {
+    Path string `json:"path"`
+    Id int64 `json:"id"`
+}
+
+type RocketMqResponse {
+    Result interface{} `json:"result"`
+}

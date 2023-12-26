@@ -3,6 +3,7 @@ import (
 	"apifile/baidu.api"
 	"apifile/log.api"
 	"apifile/photo.api"
+	"apifile/mq.api"
 )
 
 service toolbox-api {
@@ -35,4 +36,10 @@ service toolbox-api {
 	)
 	@handler DeleteImageHandler
 	post /image/delete (DeleteImageRequest) returns (DeleteImageResponse)
+	
+	@doc(
+		summary: "向RockerMq发送消息"
+	)
+	@handler RocketMqHandler
+	post /rocket/producer (RocketMqRequest) returns (RocketMqResponse)
 }

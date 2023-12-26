@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"github.com/zeromicro/go-zero/core/conf"
@@ -12,6 +13,7 @@ import (
 	"toolbox/internal/config"
 	"toolbox/internal/handler"
 	"toolbox/internal/svc"
+	"toolbox/pkg/mq/redismq"
 )
 
 func main() {
@@ -44,6 +46,8 @@ func main() {
 			return http.StatusInternalServerError, nil
 		}
 	})
+	//开启消费者
+	redismq.Consume(c, context.Background(), ctx)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()

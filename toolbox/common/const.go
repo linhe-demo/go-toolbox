@@ -9,6 +9,7 @@ const (
 	WaitSecond       = 10
 	Success          = "success"
 	FilePath         = "/var/www/html/"
+	UploadFilePath   = "/home/static/upload"
 	TempFilePath     = "/home/static/temp/"
 	DownloadFilePath = "http://150.158.82.218/images/"
 )

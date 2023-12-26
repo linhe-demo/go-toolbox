@@ -47,3 +47,12 @@ type DeleteImageRequest struct {
 type DeleteImageResponse struct {
 	Path string `json:"path"`
 }
+
+type RocketMqRequest struct {
+	Path string `json:"path"`
+	Id   int64  `json:"id"`
+}
+
+type RocketMqResponse struct {
+	Result interface{} `json:"result"`
+}

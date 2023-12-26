@@ -49,7 +49,10 @@ func CompressionImage(path string, compressionRatio float64, name string) {
 		log.Fatal(err)
 	}
 	defer outputFile.Close()
-	jpeg.Encode(outputFile, compressedImg, &jpeg.Options{Quality: 90})
+	err = jpeg.Encode(outputFile, compressedImg, &jpeg.Options{Quality: 90})
+	if err != nil {
+		return
+	}
 }
 
 // 压缩图片

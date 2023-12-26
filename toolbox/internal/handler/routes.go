@@ -37,6 +37,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/image/delete",
 				Handler: DeleteImageHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/rocket/producer",
+				Handler: RocketMqHandler(serverCtx),
+			},
 		},
 	)
 }

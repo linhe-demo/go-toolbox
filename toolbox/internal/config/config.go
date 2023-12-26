@@ -7,10 +7,12 @@ import (
 
 type Config struct {
 	rest.RestConf
-	BaiduOauth BaiduOauth      `json:"BaiduOauth"`
-	MysqlConf  MysqlConf       `json:"mysqlConf"`
-	RedisConf  RedisConf       `json:"RedisConf"`
-	CacheRedis cache.CacheConf // redis缓存
+	BaiduOauth   BaiduOauth      `json:"BaiduOauth"`
+	MysqlConf    MysqlConf       `json:"mysqlConf"`
+	RedisConf    RedisConf       `json:"RedisConf"`
+	RocketMqConf RocketMqConf    `json:"RocketMqConf"`
+	CacheRedis   cache.CacheConf // redis缓存
+	QiNiuConf    QiNiuConf       `json:"QiNiuConf"`
 }
 
 type BaiduOauth struct {
@@ -33,4 +35,15 @@ type MysqlConf struct {
 	User     string `json:"User"`
 	Password string `json:"Password"`
 	DbName   string `json:"DbName"`
+}
+
+type RocketMqConf struct {
+	Host string `json:"host"`
+	Port int    `json:"port"`
+}
+
+type QiNiuConf struct {
+	AccessKey string `json:"AccessKey"`
+	SecretKey string `json:"SecretKey"`
+	Bucket    string `json:"Bucket"`
 }
