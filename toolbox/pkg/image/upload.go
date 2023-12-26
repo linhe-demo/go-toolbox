@@ -38,7 +38,7 @@ func DealUploadImage(c config.Config, context context.Context, ctx *svc.ServiceC
 		fmt.Println(err)
 		return
 	}
-	defer os.Remove(qiniuPath)
+	defer os.Remove(newPath)
 	//将正常处理的图片信息保存
 	info := models.LifeConfig{
 		ConfigId:          param.ConfigId,
@@ -55,7 +55,7 @@ func DealUploadImage(c config.Config, context context.Context, ctx *svc.ServiceC
 		return
 	}
 	os.Remove(param.Path)
-	os.Remove(qiniuPath)
+	os.Remove(newPath)
 }
 
 func UploadToQiNiu(c config.Config, context context.Context, path string, name int64) (out string, err error) {
