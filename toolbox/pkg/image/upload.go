@@ -91,5 +91,6 @@ func UploadToQiNiu(c config.Config, context context.Context, path string, name i
 	if err != nil {
 		return out, err
 	}
+	log.Printf("七牛云返回处理结果: %s, hashKey: %s", ret.Key, ret.Hash)
 	return ret.Key, nil
 }

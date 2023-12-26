@@ -30,11 +30,12 @@ type RedisConf struct {
 }
 
 type MysqlConf struct {
-	Host     string `json:"Host"`
-	Port     int    `json:"Port"`
-	User     string `json:"User"`
-	Password string `json:"Password"`
-	DbName   string `json:"DbName"`
+	Host       string `json:"Host"`
+	Port       int    `json:"Port"`
+	User       string `json:"User"`
+	Password   string `json:"Password"`
+	LogDbName  string `json:"LogDbName"`
+	LifeDbName string `json:"LifeDbName"`
 }
 
 type RocketMqConf struct {
