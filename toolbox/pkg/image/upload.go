@@ -75,7 +75,7 @@ func DealRemoveImage(c config.Config, param MqMessage) {
 	}
 	// 指定空间所在的区域，如果不指定将自动探测
 	// 如果没有特殊需求，默认不需要指定
-	cfg.Region = &storage.ZoneHuadongZheJiang2
+	//cfg.Region = &storage.ZoneHuadongZheJiang2
 	bucketManager := storage.NewBucketManager(mac, &cfg)
 	// 删除七牛云上的图片
 	keys := []string{
@@ -89,9 +89,9 @@ func DealRemoveImage(c config.Config, param MqMessage) {
 	if len(rets) == 0 {
 		// 处理错误
 		if e, ok := err.(*storage.ErrorInfo); ok {
-			fmt.Printf("batch error, code:%s", e.Code)
+			log.Printf("batch error, code:%s", e.Code)
 		} else {
-			fmt.Printf("batch error, %s", err)
+			log.Printf("batch error, %s", err)
 		}
 		return
 	}
@@ -99,9 +99,9 @@ func DealRemoveImage(c config.Config, param MqMessage) {
 	for _, ret := range rets {
 		// 200 为成功
 		if ret.Code == 200 {
-			fmt.Printf("%d\n", ret.Code)
+			log.Printf("%d\n", ret.Code)
 		} else {
-			fmt.Printf("%s\n", ret.Data.Error)
+			log.Printf("%s\n", ret.Data.Error)
 		}
 	}
 }
