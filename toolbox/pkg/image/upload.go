@@ -80,32 +80,11 @@ func DealRemoveImage(c config.Config, param MqMessage) {
 	// 如果没有特殊需求，默认不需要指定
 	//cfg.Region = &storage.ZoneHuadongZheJiang2
 	bucketManager := storage.NewBucketManager(mac, &cfg)
-	// 删除七牛云上的图片
-	keys := []string{
-		param.Path,
-	}
-	deleteOps := make([]string, 0, len(keys))
-	for _, key := range keys {
-		deleteOps = append(deleteOps, storage.URIDelete(c.QiNiuConf.Bucket, key))
-	}
-	rets, err := bucketManager.Batch(deleteOps)
-	if len(rets) == 0 {
-		// 处理错误
-		if e, ok := err.(*storage.ErrorInfo); ok {
-			log.Printf("batch error, code:%s", e.Code)
-		} else {
-			log.Printf("batch error, %s", err)
-		}
-		return
-	}
-	// 返回 rets，先判断 rets 是否
-	for _, ret := range rets {
-		// 200 为成功
-		if ret.Code == 200 {
-			log.Printf("%d\n", ret.Code)
-		} else {
-			log.Printf("%s\n", ret.Data.Error)
-		}
+	err := bucketManager.Delete(c.QiNiuConf.Bucket, param.Path)
+	if err != nil {
+		log.Printf("七牛云返回处理结果: 错误 %v", err)
+	} else {
+		log.Printf("七牛云返回处理结果: 删除成功")
 	}
 }
 
