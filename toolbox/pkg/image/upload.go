@@ -26,13 +26,10 @@ func DealImageFile(c config.Config, context context.Context, ctx *svc.ServiceCon
 		log.Fatal(err)
 		return
 	}
-	log.Printf("batch error, %v", param)
 	if param.Action == "add-image" {
 		DealUploadImage(c, context, ctx, param)
 	}
 	if param.Action == "remove-image" {
-		log.Printf("aaaaaaaaaaaaaa")
-		fmt.Println("aaaaaaaaaaaaaa")
 		DealRemoveImage(c, param)
 	}
 }
