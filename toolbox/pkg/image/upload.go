@@ -19,14 +19,23 @@ import (
 	"toolbox/internal/svc"
 )
 
-func DealUploadImage(c config.Config, context context.Context, ctx *svc.ServiceContext, data string) {
-
-	param := UploadImage{}
+func DealImageFile(c config.Config, context context.Context, ctx *svc.ServiceContext, data string) {
+	param := MqMessage{}
 	err := json.Unmarshal([]byte(data), &param)
 	if err != nil {
 		log.Fatal(err)
 		return
 	}
+	if param.Action == "add-image" {
+		DealUploadImage(c, context, ctx, param)
+	}
+	if param.Action == "remove-image" {
+		DealRemoveImage(c, param)
+	}
+}
+
+func DealUploadImage(c config.Config, context context.Context, ctx *svc.ServiceContext, param MqMessage) {
+
 	defer os.Remove(param.Path)
 	//将图片压缩
 	CompressionImage(param.Path, 0.5, strconv.FormatInt(param.Id, 10))
@@ -56,6 +65,45 @@ func DealUploadImage(c config.Config, context context.Context, ctx *svc.ServiceC
 	}
 	os.Remove(param.Path)
 	os.Remove(newPath)
+}
+
+func DealRemoveImage(c config.Config, param MqMessage) {
+	mac := qbox.NewMac(c.QiNiuConf.AccessKey, c.QiNiuConf.SecretKey)
+	cfg := storage.Config{
+		// 是否使用https域名进行资源管理
+		UseHTTPS: true,
+	}
+	// 指定空间所在的区域，如果不指定将自动探测
+	// 如果没有特殊需求，默认不需要指定
+	cfg.Region = &storage.ZoneHuadongZheJiang2
+	bucketManager := storage.NewBucketManager(mac, &cfg)
+	// 删除七牛云上的图片
+	keys := []string{
+		param.Path,
+	}
+	deleteOps := make([]string, 0, len(keys))
+	for _, key := range keys {
+		deleteOps = append(deleteOps, storage.URIDelete(c.QiNiuConf.Bucket, key))
+	}
+	rets, err := bucketManager.Batch(deleteOps)
+	if len(rets) == 0 {
+		// 处理错误
+		if e, ok := err.(*storage.ErrorInfo); ok {
+			fmt.Printf("batch error, code:%s", e.Code)
+		} else {
+			fmt.Printf("batch error, %s", err)
+		}
+		return
+	}
+	// 返回 rets，先判断 rets 是否
+	for _, ret := range rets {
+		// 200 为成功
+		if ret.Code == 200 {
+			fmt.Printf("%d\n", ret.Code)
+		} else {
+			fmt.Printf("%s\n", ret.Data.Error)
+		}
+	}
 }
 
 func UploadToQiNiu(c config.Config, context context.Context, path string, name int64) (out string, err error) {

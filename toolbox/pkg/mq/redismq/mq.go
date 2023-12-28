@@ -19,7 +19,6 @@ func SubscribeMessage(c config.Config, context context.Context, ctx *svc.Service
 		if err != nil {
 			return
 		}
-
-		image.DealUploadImage(c, context, ctx, msg.Payload)
+		image.DealImageFile(c, context, ctx, msg.Payload)
 	}
 }
