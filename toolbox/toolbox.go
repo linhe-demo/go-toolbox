@@ -22,7 +22,7 @@ func main() {
 	sysType := runtime.GOOS
 
 	if sysType == `linux` {
-		configFile = flag.String("l", "/home/go-toolbox/toolbox/etc/toolbox-api.yaml", "the config file")
+		configFile = flag.String("l", "/home/docker/golang/go-toolbox/toolbox/etc/toolbox-api.yaml", "the config file")
 	} else {
 		configFile = flag.String("f", "etc/toolbox-api.yaml", "the config file")
 	}
