@@ -3,6 +3,7 @@ package watchdog
 import (
 	"context"
 	"net/http"
+	"time"
 	"toolbox/common"
 	"toolbox/internal/models"
 	"toolbox/internal/svc"
@@ -29,6 +30,7 @@ func Save(ctx context.Context, svc *svc.ServiceContext, param []LogInfo, w http.
 			Ip:         ip,
 			Action:     v.Action,
 			ActionUser: actionUser,
+			CreateTime: time.Now(),
 		}
 
 		_, _ = svc.UserLogModel.Insert(ctx, log)

@@ -82,7 +82,7 @@ func (m *defaultUserLogModel) FindOne(ctx context.Context, id int64) (*UserLog, 
 
 func (m *defaultUserLogModel) Insert(ctx context.Context, data *UserLog) (sql.Result, error) {
 
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?)", m.table, userLogRowsExpectAutoSet)
+	query := fmt.Sprintf("insert into %s (ip, action, action_user, create_time) values (%s, %s, %s, %s)", m.table, data.Ip, data.Action, data.ActionUser, data.CreateTime)
 	ret, err := m.ExecNoCacheCtx(ctx, query, data.Ip, data.Action, data.ActionUser)
 	return ret, err
 }
