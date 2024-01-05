@@ -6,14 +6,12 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"strings"
-	"time"
-
 	"github.com/zeromicro/go-zero/core/stores/builder"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"github.com/zeromicro/go-zero/core/stringx"
+	"strings"
 )
 
 var (
@@ -39,11 +37,11 @@ type (
 	}
 
 	UserLog struct {
-		Id         int64     `db:"id"`
-		Ip         string    `db:"ip"`          // 用户ip
-		Action     string    `db:"action"`      // 用户动作
-		ActionUser string    `db:"action_user"` // 操作人
-		CreateTime time.Time `db:"create_time"` // 创建时间
+		Id         int64  `db:"id"`
+		Ip         string `db:"ip"`          // 用户ip
+		Action     string `db:"action"`      // 用户动作
+		ActionUser string `db:"action_user"` // 操作人
+		CreateTime string `db:"create_time"` // 创建时间
 	}
 )
 
@@ -82,8 +80,8 @@ func (m *defaultUserLogModel) FindOne(ctx context.Context, id int64) (*UserLog, 
 
 func (m *defaultUserLogModel) Insert(ctx context.Context, data *UserLog) (sql.Result, error) {
 
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?)", m.table, userLogRowsExpectAutoSet)
-	ret, err := m.ExecNoCacheCtx(ctx, query, data.Ip, data.Action, data.ActionUser)
+	query := fmt.Sprintf("insert into %s (ip, action, action_user, create_time) values ('%s', '%s', '%s', '%s')", m.table, data.Ip, data.Action, data.ActionUser, data.CreateTime)
+	ret, err := m.ExecNoCacheCtx(ctx, query)
 	return ret, err
 }
 
