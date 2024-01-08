@@ -7,8 +7,5 @@ cd toolbox
 
 go build
 
-supervisorctl
+supervisorctl restart toolbox-service
 
-restart toolbox-service
-
-exit
