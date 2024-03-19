@@ -29,6 +29,9 @@ func DealImageFile(c config.Config, context context.Context, ctx *svc.ServiceCon
 	if param.Action == "add-image" {
 		DealUploadImage(c, context, ctx, param)
 	}
+	if param.Action == "add-baby" {
+		DealUploadImage(c, context, ctx, param)
+	}
 	if param.Action == "remove-image" {
 		DealRemoveImage(c, param)
 	}
@@ -48,9 +51,15 @@ func DealUploadImage(c config.Config, context context.Context, ctx *svc.ServiceC
 		return
 	}
 	defer os.Remove(newPath)
+	var configId string
+	if param.Action == "add-baby" {
+		configId = fmt.Sprintf("baby-%s", param.ConfigId)
+	} else {
+		configId = param.ConfigId
+	}
 	//将正常处理的图片信息保存
 	info := models.LifeConfig{
-		ConfigId:          param.ConfigId,
+		ConfigId:          configId,
 		ImgUrl:            qiniuPath,
 		Text:              sql.NullString{Valid: true},
 		Status:            2,

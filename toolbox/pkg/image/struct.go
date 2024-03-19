@@ -9,6 +9,6 @@ type UploadImage struct {
 type MqMessage struct {
 	Path     string `json:"path"`
 	Id       int64  `json:"id"`
-	ConfigId int64  `json:"configId"`
+	ConfigId string `json:"configId"`
 	Action   string `json:"action"`
 }

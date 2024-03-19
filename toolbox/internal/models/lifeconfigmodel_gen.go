@@ -40,7 +40,7 @@ type (
 
 	LifeConfig struct {
 		Id                int64          `db:"id"`                 // 记录ID
-		ConfigId          int64          `db:"config_id"`          // 相册id
+		ConfigId          string          `db:"config_id"`          // 相册id
 		ImgUrl            string         `db:"img_url"`            // 图片路由
 		Text              sql.NullString `db:"text"`               // 文案
 		Status            int64          `db:"status"`             // 开启状态 1：未启用 2: 启用
